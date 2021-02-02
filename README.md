@@ -1,6 +1,6 @@
 # Deploy postgres and another service into kubernetes
 
-## To deploy
+## Synopsis
 
 1. Edit `kustomization.yaml` to set the `namespace` appropriately.
 1. Create a secret named `reporting-sec` with the following
@@ -16,6 +16,13 @@
 
     ```
     oc apply -k .
+    ```
+
+Alternately, see the [feature/kustomize][] branch, which shows a more
+common mechanism for managing secrets as part of the repository (but
+requires installing some additional packages on your local machine).
+
+[feature/kustomize]: https://github.com/larsks/oc-deploy-postgres/tree/feature/kustomize
 
 ## Details
 
