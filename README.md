@@ -5,13 +5,20 @@
 ### To deploy
 
 1. Edit `kustomization.yaml` to set the `namespace` appropriately.
-1. Create a secret named `reporting-sec` with the following
-   attributes:
+
+1. Create a secret named `reporting-sec` that sets `POSTGRES_DB`,
+   `POSTGRES_USER`, and `POSTGRES_PASSWORD`:
 
    ```
-   POSTGRES_DB: reporting
-   POSTGRES_USER: reporting
-   POSTGRES_PASSWORD: <password of your choice>
+   apiVersion: v1
+   kind: Secret
+   metadata:
+       name: reporting-sec
+   type: Opaque
+   stringData:
+       POSTGRES_USER: reporting
+       POSTGRES_PASSWORD: <password of your choice>
+       POSTGRES_DB: reporting
    ```
 
 1. Run:
