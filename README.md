@@ -157,3 +157,44 @@ inside the Postgres container:
           configMap:
             name: reporting-db-initdb
 ```
+
+## Accessing postgres from another container
+
+In addition to the Postgres pod itself, this repository deploys a
+[phpPgAdmin][] pod as an example application that connects to
+Postgres.
+
+The phpPgAdmin service is able to connect to the Postgres service
+using the service name we defined `postgres-service.yaml`:
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: reporting-db-svc
+spec:
+  ports:
+    - name: postgresql
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    app: reporting
+    component: postgres
+  type: ClusterIP
+```
+
+Deploying this service makes the hostname `reporting-db-svc` available
+to pods in our OpenShift project. We configure phpPgAdmin to use our
+Postgres pod by setting the `DATABASE_HOST` environment variable, as
+described [in the documentation for the image we're
+using][bitnami/phppgadmin]:
+
+```
+          env:
+            - name: DATABASE_HOST
+              value: reporting-db-svc
+```
+
+[phpPgAdmin]: https://github.com/phppgadmin/phppgadmin
+[bitnami/phppgadmin]: https://hub.docker.com/r/bitnami/phppgadmin/
