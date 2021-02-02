@@ -2,6 +2,8 @@
 
 ## Synopsis
 
+### To deploy
+
 1. Edit `kustomization.yaml` to set the `namespace` appropriately.
 1. Create a secret named `reporting-sec` with the following
    attributes:
@@ -17,6 +19,16 @@
     ```
     oc apply -k .
     ```
+
+### To clean up
+
+Run:
+
+  ```
+  oc delete -k .
+  ```
+
+### Secrets management
 
 Alternately, see the [feature/kustomize][] branch, which shows a more
 common mechanism for managing secrets as part of the repository (but
