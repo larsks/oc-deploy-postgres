@@ -13,3 +13,6 @@ configMapGenerator:
   - name: reporting-db-initdb
     files:
       - init_rpt.sql
+
+generators:
+  - secret-generator.yaml
