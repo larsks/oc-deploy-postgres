@@ -1,0 +1,15 @@
+namespace: lars-sandbox
+commonLabels:
+  app: reporting
+
+resources:
+  - postgres-deployment.yaml
+  - postgres-pvc.yaml
+  - postgres-service.yaml
+  - phppgadmin-deployment.yaml
+  - phppgadmin-service.yaml
+
+configMapGenerator:
+  - name: reporting-db-initdb
+    files:
+      - init_rpt.sql

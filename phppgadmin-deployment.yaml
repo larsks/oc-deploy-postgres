@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phppgadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reportping
+      component: phppgadmin
+  template:
+    metadata:
+      name: phppgadmin
+      labels:
+        component: phppgadmin
+    spec:
+      containers:
+        - name: phppgadmin
+          image: bitnami/phppgadmin:7
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: DATABASE_HOST
+              value: reporting-db-svc

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reporting
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reporting
+      component: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: postgres
+      labels:
+        component: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:13
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/postgresql
+              name: postgres-data
+            - mountPath: /docker-entrypoint-initdb.d
+              name: postgres-initdb
+            - mountPath: /var/run
+              name: postgres-run
+          envFrom:
+            - secretRef:
+                name: reporting-sec
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: reporting-db-pvc
+        - name: postgres-initdb
+          configMap:
+            name: reporting-db-initdb
+        - name: postgres-run
+          emptyDir: {}
